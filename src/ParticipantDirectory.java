@@ -8,22 +8,22 @@ import java.util.TreeMap;
  * pairs in sorted order based on the keys.
  */
 public class ParticipantDirectory {
-    // TreeMap storing participants with username as key.
+
     private final Map<String, Participant> usernameToParticipant;
+    // stores participants by username
+    private final Map<Integer, Participant> userIdNumberToParticipant;
+    // stores participants by user id
 
-    // TODO 1a: Declare a TreeMap to store participants with ID as key.
-
+    /*
+    (1) look up participants by ID number and (2) obtain a roster of participants sorted by ID number
+     */
 
     /**
-     * ParticipantDirectory constructor creates two TreeMaps
-     * to store data with different keys.
+     * ParticipantDirectory constructor creates two TreeMaps to store data with different keys.
      */
     public ParticipantDirectory() {
-        // Create the TreeMap to store participants with username as key.
         this.usernameToParticipant = new TreeMap<>();
-
-        // TODO 1b: Create the TreeMap to store participants with ID as key.
-
+        this.userIdNumberToParticipant = new TreeMap<>();
     }
 
     /**
@@ -34,14 +34,10 @@ public class ParticipantDirectory {
      * @param fullname The Participant's full name.
      */
     public void addParticipant(Integer idNumber, String username, String fullname) {
-        // Create a Participant object and store it in the TreeMap
-        // using the username of the Participant, p, as key.
         Participant p = new Participant(idNumber, username, fullname);
         this.usernameToParticipant.put(p.username, p);
-
-        // TODO 2: Store the Participant, p, in the second TreeMap
-        // TODO 2: using the idNumber attribute of p as key.
-
+        // using the username of the Participant, p, as key.
+        this.userIdNumberToParticipant.put(p.idNumber, p);
     }
 
     /**
@@ -64,9 +60,7 @@ public class ParticipantDirectory {
      * @return Participant object mapped to the given username; null if username not in map.
      */
     public Participant getParticipantByID(Integer idNumber) {
-        // TODO 3: Return the Participant associated with the given idNumber
-        // TODO 3: using the second TreeMap created in step 1.
-        return null;
+        return this.userIdNumberToParticipant.get(idNumber);
     }
 
     /**
@@ -92,9 +86,12 @@ public class ParticipantDirectory {
      * @return String containing the current roster, sorted by ID number.
      */
     public String getRosterByID() {
-        // TODO 4: Use the second TreeMap created in step 1 to build and return
-        // TODO 4: return a String containing a participant roster sorted by ID.
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (Participant p : this.userIdNumberToParticipant.values()) {
+            sb.append(p);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     /**
@@ -116,8 +113,5 @@ public class ParticipantDirectory {
 
         System.out.println("Participant Roster By Username:");
         System.out.println(dir.getRosterByUsername());
-
-        // TODO 5 (optional): Add a bit of test code for the new TreeMap.
-
     }
 }
